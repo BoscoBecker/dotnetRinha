@@ -1,0 +1,9 @@
+@dotnetRinha_HostAddress = http://localhost:5274
+
+
+GET {{dotnetRinha_HostAddress}}/payments-summary/
+Accept: application/json
+###
+
+POST {{dotnetRinha_HostAddress}}/payments/
+Accept: application/json
