@@ -16,7 +16,7 @@ namespace dotnetRinha.Service.Payment
             if (await _paymentLogService.ExistsOrInsertCorrelationIdAsync(request.CorrelationId)) return false;
 
             var PaymentProcessor = new VerifyHealthEndpoint(_httpClientFactory);
-                _defaultHealthy = await PaymentProcessor.CheckHealth("default");
+            _defaultHealthy = await PaymentProcessor.CheckHealth("default");
             var client = _defaultHealthy ? _httpClientFactory.CreateClient("default") : _httpClientFactory.CreateClient("fallback");
             var response = await client.PostAsJsonAsync("/payments", request);
 
@@ -24,7 +24,8 @@ namespace dotnetRinha.Service.Payment
             {
                 var clientName = _defaultHealthy ? "default" : "fallback";
                 await _paymentLogService.LogAsync(clientName, request.Amount);
-            } else return false;
+            }
+            else return false;
 
             return response.IsSuccessStatusCode;
         }
