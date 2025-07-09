@@ -4,10 +4,17 @@ namespace dotnetRinha.Entities
 {
     public class PaymentSummary
     {
-        public decimal Total { get; set; }
-        public int Count { get; set; }
-        [JsonPropertyName("byProcessor")]
-        public Dictionary<string, ProcessorSummary> ByProcessor { get; set; } = [];
+        [JsonPropertyName("totalAmount")]
+        public decimal TotalAmount { get; set; }
+
+        [JsonPropertyName("totalRequests")]
+        public int TotalRequests { get; set; }
+
+        [JsonPropertyName("totalFee")]
+        public decimal TotalFee { get; set; }
+
+        [JsonPropertyName("feePerTransaction")]
+        public decimal FeePerTransaction { get; set; }
 
     }
 }

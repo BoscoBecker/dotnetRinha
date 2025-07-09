@@ -1,6 +1,6 @@
 ﻿using dotnetRinha.Entities;
 
-namespace dotnetRinha.Service
+namespace dotnetRinha.Service.Interfaces
 {
     public interface IPaymentProcessorService
     {
