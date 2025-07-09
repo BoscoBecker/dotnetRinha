@@ -9,25 +9,29 @@ public class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        builder.WebHost.UseUrls("http://0.0.0.0:8080");
         builder.Services.AddControllers();
-        builder.Services.AddOpenApi();
         builder.Services.AddSingleton<IPaymentProcessorService, PaymentProcessorService>();
         builder.Services.AddSingleton<IPaymentSummaryService, PaymentSummaryService>();
         builder.Services.AddSingleton<VerifyHealthEndpoint>();
-        builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
+        
+        var redisConnectionString = "redis:6379,abortConnect=false";        
+        builder.Services.AddSingleton<IConnectionMultiplexer>(
+            ConnectionMultiplexer.Connect(redisConnectionString)
+        );
+        builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnectionString));
         builder.Services.AddSingleton<IPaymentLogService, RedisPaymentLogService>();
 
         builder.Services.AddHttpClient("default", client =>
         {
-            client.BaseAddress = new Uri("http://localhost:8001/");
+            client.BaseAddress = new Uri("http://backend-1:8080/");
         });
         
         builder.Services.AddHttpClient("fallback", client => {
-            client.BaseAddress = new Uri("http://localhost:8002/");
+            client.BaseAddress = new Uri("http://backend-2:8080/");
         });
 
         var app = builder.Build();
-        if (app.Environment.IsDevelopment()) app.MapOpenApi();
         app.UseHttpsRedirection();
         app.UseAuthorization();
         app.MapControllers();

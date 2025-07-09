@@ -20,11 +20,12 @@ namespace dotnetRinha.Service.Log
 
             var entries = await _redis.SortedSetRangeByScoreAsync(Key, fromEpoch, toEpoch);
             var logs = new List<PaymentLogEntry>();
-
+            
             foreach (var entry in entries)
             {
-               var logEntry = JsonSerializer.Deserialize<PaymentLogEntry>(entry);
-               if (logEntry != null) logs.Add(logEntry);               
+                var logEntry = JsonSerializer.Deserialize<PaymentLogEntry>(entry);
+                if (logEntry != null) 
+                    logs.Add(logEntry);
             }
             return logs;
         }
