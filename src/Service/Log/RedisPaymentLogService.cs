@@ -9,28 +9,26 @@ namespace dotnetRinha.Service.Log
     {
         private readonly IDatabase _redis;
         private const string Key = "payments:logs";
-        public RedisPaymentLogService(IConnectionMultiplexer redis) => _redis = redis.GetDatabase();        
-        public Task<List<PaymentLogEntry>> GetLogsAsync(DateTime from, DateTime to)
+        public RedisPaymentLogService(IConnectionMultiplexer redis) => _redis = redis.GetDatabase();
+        public async Task<List<PaymentLogEntry>> GetLogsAsync(DateTime from, DateTime to)
         {
+            var start = from > DateTime.MinValue ? from : DateTime.UtcNow.AddDays(-30);
+            var end = to > DateTime.MinValue ? to : DateTime.UtcNow;
+
+            var fromEpoch = new DateTimeOffset(start).ToUnixTimeSeconds();
+            var toEpoch = new DateTimeOffset(end).ToUnixTimeSeconds();
+
+            var entries = await _redis.SortedSetRangeByScoreAsync(Key, fromEpoch, toEpoch);
             var logs = new List<PaymentLogEntry>();
-            var end = DateTime.UtcNow;
-            var start = end.AddDays(-30);
-            if (from > DateTime.MinValue && to > DateTime.MinValue)
-            {
-                start = from;
-                end = to;
-            }
-            var entries = _redis.ListRange(Key, 0, -1);
+
             foreach (var entry in entries)
             {
-                var logEntry = JsonSerializer.Deserialize<PaymentLogEntry>(entry);
-                if (logEntry != null && logEntry.Timestamp >= start && logEntry.Timestamp <= end)
-                {
-                    logs.Add(logEntry);
-                }
+               var logEntry = JsonSerializer.Deserialize<PaymentLogEntry>(entry);
+               if (logEntry != null) logs.Add(logEntry);               
             }
-            return Task.FromResult(logs);
+            return logs;
         }
+
 
         public async Task LogAsync(string source, decimal amount)
         {
@@ -40,8 +38,10 @@ namespace dotnetRinha.Service.Log
                 Timestamp = DateTime.UtcNow,
                 Amount = amount
             };
-            var json = JsonSerializer.Serialize(entry);
-            await _redis.ListRightPushAsync(Key, json);
+
+            string json = JsonSerializer.Serialize(entry);
+            var score = new DateTimeOffset(entry.Timestamp).ToUnixTimeSeconds();
+            await _redis.SortedSetAddAsync(Key, json, score);
         }
 
         public async Task<bool> ExistsOrInsertCorrelationIdAsync(Guid correlationId)

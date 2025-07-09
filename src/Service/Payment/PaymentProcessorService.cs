@@ -26,7 +26,6 @@ namespace dotnetRinha.Service.Payment
                 await _paymentLogService.LogAsync(clientName, request.Amount);
             }
             else return false;
-
             return response.IsSuccessStatusCode;
         }
     }

@@ -2,7 +2,7 @@
 {
     public class PaymentLogEntry
     {
-        public string Source { get; set; } = ""; // "default" ou "fallback"
+        public string Source { get; set; } = "";
         public DateTime Timestamp { get; set; }
         public decimal Amount { get; set; }
     }
