@@ -4,7 +4,7 @@ using dotnetRinha.Service.Log;
 using dotnetRinha.Service.Payment;
 using StackExchange.Redis;
 
-internal class Program
+public class Program
 {
     private static void Main(string[] args)
     {
