@@ -24,6 +24,7 @@ Site oficial: [https://github.com/zanfranceschi/rinha-de-backend-2025](https://g
 - Framework: ASP.NET Minimal API
 - Banco de Dados: PostgreSQL
 - Docker e Docker Compose
+- Redis
 ```
 
 ## 🚀 Como Rodar o Projeto
