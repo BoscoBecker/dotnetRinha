@@ -57,6 +57,6 @@ namespace dotnetRinha.Service.Log
                 when: When.NotExists);
             return !inserted;
         }
-      
+     
     }
 }
