@@ -1,5 +1,5 @@
 ﻿using dotnetRinha.Entities;
-using dotnetRinha.Service;
+using dotnetRinha.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,11 +12,13 @@ namespace dotnetRinha.Controllers
     {
         private readonly IPaymentProcessorService _processorService;
         private readonly IPaymentSummaryService _summaryService;
-        //public PaymentController(IPaymentProcessorService processorService) => _processorService = processorService;        
-        public PaymentController(IPaymentProcessorService processorService, IPaymentSummaryService summaryService)
+        private readonly IPaymentLogService _logService;
+
+        public PaymentController(IPaymentProcessorService processorService, IPaymentSummaryService summaryService, IPaymentLogService logService)
         {
             _processorService = processorService;
             _summaryService = summaryService;
+            _logService = logService;
         }
 
         // POST api/<PaymentController>
@@ -36,8 +38,22 @@ namespace dotnetRinha.Controllers
 
         // GET api/<PaymentController>/summary
         [HttpGet("/payments-summary")]
-        public Task<PaymentSummary> Get() => _summaryService.GetSummaryAsync();
-        
+        public async Task<IActionResult> GetSummary([FromQuery] DateTime from, [FromQuery] DateTime to)
+        {
+            var logs = await _logService.GetLogsAsync(from, to);
 
+            var grouped = logs
+                .GroupBy(e => e.Source)
+                .ToDictionary(
+                    g => g.Key,
+                    g => new
+                    {
+                        totalRequests = g.Count(),
+                        totalAmount = g.Sum(x => x.Amount)
+                    }
+                );
+
+            return Ok(grouped);
+        }
     }
 }

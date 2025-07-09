@@ -7,3 +7,9 @@ Accept: application/json
 
 POST {{dotnetRinha_HostAddress}}/payments/
 Accept: application/json
+X-Rinha-Token:123
+{
+  "correlationId": "1e413537-0797-4513-8427-6c8e535efd23",
+  "amount": 100,
+  "requestedAt": "2025-07-09T12:34:56.000Z"
+}
