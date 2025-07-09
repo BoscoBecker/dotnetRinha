@@ -14,7 +14,11 @@ namespace dotnetRinha.Service.Log
         {
             var logs = new List<PaymentLogEntry>();
             var end = DateTime.UtcNow;
+<<<<<<<<< Temporary merge branch 1
+            var start = end.AddDays(-30); // Default to last 30 days
+=========
             var start = end.AddDays(-30);
+>>>>>>>>> Temporary merge branch 2
             if (from > DateTime.MinValue && to > DateTime.MinValue)
             {
                 start = from;
@@ -44,6 +48,8 @@ namespace dotnetRinha.Service.Log
             await _redis.ListRightPushAsync(Key, json);
 
         }
+<<<<<<<<< Temporary merge branch 1
+=========
         public async Task<bool> ExistsOrInsertCorrelationIdAsync(Guid correlationId)
         {
             if (correlationId == Guid.Empty)
@@ -57,6 +63,7 @@ namespace dotnetRinha.Service.Log
                 when: When.NotExists);
             return !inserted;
         }
-     
+      
+>>>>>>>>> Temporary merge branch 2
     }
 }
