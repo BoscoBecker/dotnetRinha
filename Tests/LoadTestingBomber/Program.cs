@@ -9,32 +9,46 @@ namespace LoadTestingBomber
         private static void Main()
         {
             Console.WriteLine("NBomber POST Test Started...");
+
             using var httpClient = new HttpClient();
+
             var step = Scenario.Create("post_payment", async context =>
             {
                 var correlationId = Guid.NewGuid();
                 var amount = Random.Shared.NextDouble() * 1000;
                 var requestedAt = DateTime.UtcNow.ToString("o");
+
                 var payload = new
                 {
                     correlationId,
                     amount = Math.Round(amount, 2),
                     requestedAt
                 };
+
                 var json = JsonSerializer.Serialize(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("http://localhost:9999/payment", content);
+                var responseBody = await response.Content.ReadAsStringAsync();
 
-                var response = await httpClient.PostAsync("http://localhost:8001/payments", content);
                 return response.IsSuccessStatusCode
                     ? Response.Ok()
                     : Response.Fail();
+            })
+            .WithWarmUpDuration(TimeSpan.FromSeconds(5)) 
+            .WithLoadSimulations(
+                NBomber.Contracts.LoadSimulation.NewInject(
+                    _rate: 10,
+                    _interval: TimeSpan.FromSeconds(1),
+                    _during: TimeSpan.FromSeconds(50) 
+                )
+            );
 
-            }).WithWarmUpDuration(TimeSpan.FromSeconds(5))
-              .WithLoadSimulations(NBomber.Contracts.LoadSimulation.NewKeepConstant(_copies: 500, _during: TimeSpan.FromSeconds(60)));
             NBomberRunner
-           .RegisterScenarios(step)
-           .Run();
+                .RegisterScenarios(step)
+                .Run();
+
             Console.WriteLine("NBomber POST Test Completed.");
         }
+
     }
 }

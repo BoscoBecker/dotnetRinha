@@ -10,23 +10,22 @@ namespace dotnetRinha.Service.Payment
         private readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
         private readonly IPaymentLogService _paymentLogService = paymentLogService;
         private bool _defaultHealthy = true;
+        public async Task<bool> ProcessPaymentAsync(PaymentRequest request)        {            
 
-        public async Task<bool> ProcessPaymentAsync(PaymentRequest request)
-        {
-            if (await _paymentLogService.ExistsOrInsertCorrelationIdAsync(request.CorrelationId)) return false;
-
-            var PaymentProcessor = new VerifyHealthEndpoint(_httpClientFactory);
-            _defaultHealthy = await PaymentProcessor.CheckHealth("default");
-            var client = _defaultHealthy ? _httpClientFactory.CreateClient("default") : _httpClientFactory.CreateClient("fallback");
+            if (await _paymentLogService.ExistsOrInsertCorrelationIdAsync(request.CorrelationId)) return false;            
+            var paymentProcessor = new VerifyHealthEndpoint(_httpClientFactory);
+            _defaultHealthy = await paymentProcessor.CheckHealth("default");
+            
+            var clientName = _defaultHealthy ? "default" : "fallback";
+            var client = _httpClientFactory.CreateClient(clientName);
             var response = await client.PostAsJsonAsync("/payments", request);
 
             if (response != null)
-            {
-                var clientName = _defaultHealthy ? "default" : "fallback";
                 await _paymentLogService.LogAsync(clientName, request.Amount);
-            }
-            else return false;
+            else
+                return false;
             return response.IsSuccessStatusCode;
         }
+
     }
 }

@@ -24,11 +24,11 @@ public class Program
 
         builder.Services.AddHttpClient("default", client =>
         {
-            client.BaseAddress = new Uri("http://backend-1:8080/");
+            client.BaseAddress = new Uri("http://payment-processor-default:8080");
         });
         
         builder.Services.AddHttpClient("fallback", client => {
-            client.BaseAddress = new Uri("http://backend-2:8080/");
+            client.BaseAddress = new Uri("http://payment-processor-fallback:8080");
         });
 
         var app = builder.Build();

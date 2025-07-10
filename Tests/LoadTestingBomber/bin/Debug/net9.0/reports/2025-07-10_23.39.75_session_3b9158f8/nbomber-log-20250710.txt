@@ -1,0 +1,14 @@
+2025-07-10 20:39:40.940 -03:00 [INF] [ThreadId:1] NBomber 5.2.2 started a new session: 2025-07-10_23.39.75_session_3b9158f8
+2025-07-10 20:39:41.193 -03:00 [INF] [ThreadId:1] NBomber started as single node
+2025-07-10 20:39:41.205 -03:00 [INF] [ThreadId:1] License validation....
+2025-07-10 20:39:41.210 -03:00 [WRN] [ThreadId:1] THIS VERSION IS FREE ONLY FOR PERSONAL USE. You can't use it for an organization.
+2025-07-10 20:39:41.272 -03:00 [INF] [ThreadId:1] Reports folder: D:\Desenvolvimento\C#\dotnetRinha\Tests\LoadTestingBomber\bin\Debug\net9.0\reports\2025-07-10_23.39.75_session_3b9158f8
+2025-07-10 20:39:41.288 -03:00 [INF] [ThreadId:1] Plugins: no plugins were loaded
+2025-07-10 20:39:41.290 -03:00 [INF] [ThreadId:1] Reporting sinks: no reporting sinks were loaded
+2025-07-10 20:39:41.293 -03:00 [INF] [ThreadId:1] Starting init...
+2025-07-10 20:39:41.368 -03:00 [INF] [ThreadId:1] Target scenarios: post_payment
+2025-07-10 20:39:41.379 -03:00 [INF] [ThreadId:1] Init finished
+2025-07-10 20:39:41.541 -03:00 [INF] [ThreadId:1] Starting warm up...
+2025-07-10 20:39:41.545 -03:00 [INF] [ThreadId:1] Warm up for scenarios: post_payment
+2025-07-10 20:39:41.562 -03:00 [INF] [ThreadId:1] Warm up duration: 00:00:05
+2025-07-10 20:39:47.965 -03:00 [INF] [ThreadId:11] Starting bombing...

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LoadTestingBomber")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+684e1e5fff297ac2ba196856b8ecac6092461a73")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+587e053a4e429dc9c3ee4343520e8fa787c58ea6")]
 [assembly: System.Reflection.AssemblyProductAttribute("LoadTestingBomber")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LoadTestingBomber")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
