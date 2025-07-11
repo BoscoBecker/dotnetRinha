@@ -4,8 +4,8 @@
     deploy:
       resources:
         limits:
-          cpus: "0.25"
-          memory: "15MB"
+          cpus: "0.15"
+          memory: "42MB"
     ports:
       - "9999:80"
     volumes:

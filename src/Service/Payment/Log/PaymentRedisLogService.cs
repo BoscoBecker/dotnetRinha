@@ -3,13 +3,13 @@ using dotnetRinha.Service.Interfaces;
 using StackExchange.Redis;
 using System.Text.Json;
 
-namespace dotnetRinha.Service.Log
+namespace dotnetRinha.Service.Payment.Log
 {
-    public class RedisPaymentLogService : IPaymentLogService
+    public class PaymentRedisLogService : IPaymentLogService
     {
         private readonly IDatabase _redis;
         private const string Key = "payments:logs";
-        public RedisPaymentLogService(IConnectionMultiplexer redis) => _redis = redis.GetDatabase();
+        public PaymentRedisLogService(IConnectionMultiplexer redis) => _redis = redis.GetDatabase();
         public async Task<List<PaymentLogEntry>> GetLogsAsync(DateTime from, DateTime to)
         {
             var start = from > DateTime.MinValue ? from : DateTime.UtcNow.AddDays(-30);
@@ -38,7 +38,7 @@ namespace dotnetRinha.Service.Log
                 Amount = amount
             };
 
-            string json = JsonSerializer.Serialize(entry);
+            var json = JsonSerializer.Serialize(entry);
             var score = new DateTimeOffset(entry.Timestamp).ToUnixTimeSeconds();
             await _redis.SortedSetAddAsync(Key, json, score);
         }

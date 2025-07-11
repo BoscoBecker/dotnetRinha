@@ -6,7 +6,7 @@ namespace dotnetRinha.Service.HealthCheck
     {        
         private readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
         private DateTime _lastHealthCheckDefault = DateTime.MinValue;
-        private bool _defaultHealthy = false;
+        private bool? _defaultHealthy = null;
 
         public async Task<bool> CheckHealth(string clientName)
         {
@@ -25,18 +25,25 @@ namespace dotnetRinha.Service.HealthCheck
                         {
                             PropertyNameCaseInsensitive = true
                         });
+
                         _defaultHealthy = healthStatus is { Failing: false };
                     }
-                    else                    
-                        _defaultHealthy = true;                    
+                    else
+                    {
+                        _defaultHealthy ??= true;
+                    }
+
                     _lastHealthCheckDefault = now;
                 }
-                return _defaultHealthy;
+
+                return _defaultHealthy ?? true;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                Console.WriteLine($"HealthCheck Exception: {ex.Message}");
+                return _defaultHealthy ?? true;
             }
         }
+
     }
 }
