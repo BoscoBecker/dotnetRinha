@@ -24,12 +24,10 @@ namespace dotnetRinha.Service.Log
             foreach (var entry in entries)
             {
                 var logEntry = JsonSerializer.Deserialize<PaymentLogEntry>(entry);
-                if (logEntry != null) 
-                    logs.Add(logEntry);
+                if (logEntry != null) logs.Add(logEntry);
             }
             return logs;
         }
-
 
         public async Task LogAsync(string source, decimal amount)
         {

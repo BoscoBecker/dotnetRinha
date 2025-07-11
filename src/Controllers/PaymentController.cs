@@ -1,5 +1,6 @@
 ﻿using dotnetRinha.Entities;
 using dotnetRinha.Service.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnetRinha.Controllers
@@ -24,12 +25,12 @@ namespace dotnetRinha.Controllers
         public async Task<IActionResult> Post([FromBody] PaymentRequest req)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
+                return StatusCode(400, new { message = "processor failed"});
+            
             var success = await _processorService.ProcessPaymentAsync(req);
             if (success)  
                 return Ok(new PaymentResponse());
-
+            
             return StatusCode(502, new { message = "processor failed" });
         }
 

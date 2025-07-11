@@ -13,7 +13,7 @@ namespace dotnetRinha.Service.HealthCheck
             try
             {
                 var now = DateTime.UtcNow;
-                if ((now - _lastHealthCheckDefault).TotalSeconds >= 5)
+                if ((now - _lastHealthCheckDefault).TotalSeconds >= 2)
                 {
                     var client = _httpClientFactory.CreateClient(clientName);
                     var response = await client.GetAsync("/payments/service-health");
@@ -28,7 +28,7 @@ namespace dotnetRinha.Service.HealthCheck
                         _defaultHealthy = healthStatus is { Failing: false };
                     }
                     else                    
-                        _defaultHealthy = false;                    
+                        _defaultHealthy = true;                    
                     _lastHealthCheckDefault = now;
                 }
                 return _defaultHealthy;

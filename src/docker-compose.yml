@@ -1,6 +1,11 @@
 ﻿services:
   load-balancer:
     image: nginx:latest
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: "15MB"
     ports:
       - "9999:80"
     volumes:

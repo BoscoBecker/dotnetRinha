@@ -1,1 +1,0 @@
-2025-07-10 20:25:20.730 -03:00 [ERR] [ThreadId:1] Scenario 'post_payment' has a warm-up duration '00:00:30' that is bigger than the actual scenario's duration '00:00:03'. It should be equal or smaller but not bigger.
