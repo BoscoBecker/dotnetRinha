@@ -14,6 +14,8 @@ A **Rinha de Backend** é uma competição anual que desafia desenvolvedores a c
 
 Site oficial: [https://github.com/zanfranceschi/rinha-de-backend-2025](https://github.com/zanfranceschi/rinha-de-backend-2025)
 
+Docker Image: https://hub.docker.com/r/boscobecker/dotnetrinha
+
 ---
 
 ## ⚙️ Tecnologias Usadas
