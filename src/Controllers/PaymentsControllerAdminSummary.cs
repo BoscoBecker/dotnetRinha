@@ -5,7 +5,7 @@ namespace dotnetRinha.Controllers
 {
     [ApiController]
     [Route("/admin/payments-summary")]
-    public class PaymentControllerAdminSummary(IPaymentSummaryService summaryService) : ControllerBase
+    public class PaymentsControllerAdminSummary(IPaymentSummaryService summaryService) : ControllerBase
     {
         private readonly IPaymentSummaryService _summaryService = summaryService;
 

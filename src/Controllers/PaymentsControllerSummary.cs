@@ -5,7 +5,7 @@ namespace dotnetRinha.Controllers
 {
     [Route("/[controller]")]
     [ApiController]
-    public class PaymentControllerSummary(IPaymentLogService logService) : ControllerBase
+    public class PaymentsControllerSummary(IPaymentLogService logService) : ControllerBase
     {
         private readonly IPaymentLogService _logService = logService;      
 

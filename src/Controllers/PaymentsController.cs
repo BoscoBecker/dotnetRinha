@@ -6,7 +6,7 @@ namespace dotnetRinha.Controllers
 {
     [Route("/[controller]")]
     [ApiController]
-    public class PaymentController(IPaymentProcessorService processorService) : ControllerBase
+    public class PaymentsController(IPaymentProcessorService processorService) : ControllerBase
     {
         private readonly IPaymentProcessorService _processorService = processorService;
                 
